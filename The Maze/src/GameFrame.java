@@ -4,15 +4,15 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 public class GameFrame extends JFrame{
 
     public static final int  WIDTH = 809,HEIGHT = 600;
     public static int ROW = 650 , COL = 400; 
-    public static  Queue<Cell> cells = new LinkedList<>();
+    public static Queue<Cell> cells = new LinkedList<>();
     public static Map<String,Cell> population = new HashMap<>(); 
-    public static final int GHEIGHT =JPanel.WIDTH*27  ,GWIDTH = JPanel.HEIGHT*26-9;
+    public int size = 16;
+    public static int GHEIGHT ,GWIDTH ;
 
 
     public GameFrame(){
@@ -20,6 +20,10 @@ public class GameFrame extends JFrame{
         this.setTitle("The Maze");
         this.setSize(WIDTH, HEIGHT);
         this.getContentPane().setBackground(Color.BLACK.darker());
+
+        GHEIGHT = this.getHeight()/(size+1)-5;
+        GWIDTH = this.getWidth()/(size+1)-1;
+
         addCells();
         this.setLayout(null);
         this.setResizable(false);
@@ -29,19 +33,18 @@ public class GameFrame extends JFrame{
        
     }
     public void addCells(){
+       
         for(int i = 1; i<GHEIGHT;i++){
             for(int j= 1;j<GWIDTH;j++){
                 Cell cell = new Cell(i, j);
-
                 //remove extra walls 
-                if(i-1>0 && population.containsKey(i-1+" "+j)) cell.topOff();
-                if(j-1>0 && population.containsKey(i+" "+(j-1)))  cell.leftOff();
+                if(i-1>0) cell.topOff();
+                if(j-1>0)  cell.leftOff();
 
                 this.add(cell);
                 population.put(i+" "+j, cell);   
+                cells.offer(cell);
             }
         }
-            
-        //MazeGenerator mazeGenerator = new MazeGenerator(cells);
     } 
 }
