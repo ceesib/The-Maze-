@@ -12,6 +12,6 @@ public class App {
         Thread mazeThread = new Thread(mazeGenerator);
         mazeThread.start();
    
-        System.out.print(mazeGenerator);  
+        //System.out.print(mazeGenerator);  
     }
 }
