@@ -12,38 +12,34 @@ public class MazeGenerator implements Runnable{
     public boolean[][] visited ;
     public  GameFrame gameFrame;
     public int x,y;
+
     public MazeGenerator(GameFrame gameFrame, boolean [][] visited,int x, int y){
         this.gameFrame = gameFrame;
         this.population = GameFrame.population;
         this.visited = visited;
-        
         this.x = x;
         this.y = y;
-        
         this.cells = new Stack<>();
         this.cellPath = new Stack<>();
-
     }
+
     public void createMaze(boolean[][] vis,int i,int j) throws InterruptedException{
         String current_key = i+" "+j;
        
-
-        ArrayList<Struct> neighboursList = new ArrayList<>();
+        ArrayList<Struct<String,Integer>> neighboursList = new ArrayList<>();
         if(i<0 || j<0 || j>=vis[0].length || i>=vis.length ) return;
         if(i>0 && j>0 && j<vis[0].length && i<vis.length && vis[i][j] &&cells.isEmpty()) return;
     
         cells.push(population.get(current_key));
         Cell current_cell  = null;
+
         while(!cells.isEmpty()){
             current_cell = cells.pop();
-            //System.out.println("current_cell: "+ current_cell.x+""+current_cell.y);
-            //System.out.println("stack size: "+cells.size());
             vis[current_cell.x][current_cell.y] = true;
             this.cellPath.push(current_cell);
             computeNeighbours(current_cell, vis, neighboursList);
             if(!neighboursList.isEmpty()) removeWalls(current_cell, neighboursList, vis);
-            //TimeUnit.SECONDS.sleep(2);
-            else if(neighboursList.isEmpty()) {
+            else{
                 while(!cellPath.isEmpty()){
                     var c = cellPath.pop();
                     computeNeighbours(c, vis, neighboursList);
@@ -51,15 +47,12 @@ public class MazeGenerator implements Runnable{
                         cells.push(c);
                         break;
                     }
-                    System.out.printf("no valid neighbours for cell (%s,%s) \n",c.i,c.j);
                 }
             }
         }
-
-       
-
     }
-    public void computeNeighbours(Cell current_cell,boolean[][] vis,ArrayList<Struct> neighboursList){
+
+    public void computeNeighbours(Cell current_cell,boolean[][] vis,ArrayList<Struct<String,Integer>> neighboursList){
         int[] dx = {0,-1,0,1}, dy = {-1,0,1,0};
         for(int k = 0;k<dx.length;k++){
                 int row = dy[k]+ current_cell.x;
@@ -85,28 +78,28 @@ public class MazeGenerator implements Runnable{
                         opposite_wall = 3;
                     }
                    
-                    neighboursList.add(new Struct(key, current_wall,opposite_wall));
-                }
+                    neighboursList.add(new Struct<>(key, current_wall,opposite_wall));
             }
+        }
     }
-    public void removeWalls(Cell current_cell,ArrayList<Struct> neighboursList,boolean[][] vis) throws InterruptedException{
+    public void removeWalls(Cell current_cell,ArrayList<Struct<String,Integer>> neighboursList,boolean[][] vis) throws InterruptedException{
         
         Random random = new Random();
         int chosenKeyNumber = random.nextInt(0, neighboursList.size());
-        Struct struct = neighboursList.get(chosenKeyNumber);
+        Struct<String,Integer> struct = neighboursList.get(chosenKeyNumber);
         String chosenKey = struct.key;
         Cell cell = population.get(chosenKey);
         
-
         vis[cell.x][cell.y] = true;
         cells.push(cell);
         this.cellPath.push(cell);
+
         current_cell.walls[struct.current_wall] = false;
         cell.walls[struct.opposite_wall] = false;
         
         this.gameFrame.repaint();
         cell.revalidate();
-        TimeUnit.MILLISECONDS.sleep(50);
+        TimeUnit.MILLISECONDS.sleep(10);
 
         neighboursList.clear();  
     }
@@ -117,8 +110,6 @@ public class MazeGenerator implements Runnable{
             createMaze(visited, x, y);
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }
-        
+        }   
     }
-
 }

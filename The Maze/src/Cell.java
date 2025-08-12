@@ -20,9 +20,7 @@ public class Cell extends JLayeredPane{
         this.left_off = false;
         this.walls= new boolean[4];
         Arrays.fill(this.walls, true);
-        
         this.setVisible(true);
-    
         this.setBounds(this.j, this.i,size+this.y+1, size+this.x+1);
         this.setLayout(null);
     }
@@ -35,9 +33,8 @@ public class Cell extends JLayeredPane{
         if(this.walls[1]) g.drawLine(this.y+size, this.x, this.y+size, this.x+size);
         if(this.walls[2]) g.drawLine(this.y+size+1, this.x+size, this.y, this.x+size);
         if(this.walls[3] && !this.left_off) g.drawLine(this.y, this.x+size, this.y, this.x);
-   
- 
     }
+
     public void topOff() {
         this.top_off = true;
     }
