@@ -22,6 +22,7 @@ public class GameFrame extends JFrame{
         GWIDTH = this.getWidth()/(size+1)-1;
 
         addCells();
+        Opening.createOpenings(6);
         this.setLayout(null);
         this.setResizable(false);
         this.setVisible(true);
@@ -32,13 +33,18 @@ public class GameFrame extends JFrame{
     public void addCells(){
         for(int i = 1; i<GHEIGHT;i++){
             for(int j= 1;j<GWIDTH;j++){
+              
                 Cell cell = new Cell(i, j);
                 if(i-1>0) cell.topOff();
                 if(j-1>0)  cell.leftOff();
                 this.add(cell);
                 population.put(i+" "+j, cell);   
-  
+                Opening.addBorderCell(cell);
+             
             }
+            //System.out.println("borderCell size:"+ Opening.borderCells.size());
+  
         }
+        
     } 
 }

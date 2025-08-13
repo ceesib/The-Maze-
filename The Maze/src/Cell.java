@@ -28,7 +28,7 @@ public class Cell extends JLayeredPane{
     @Override
     public void paintComponent(Graphics g){
         super.paintComponent(g);
-        g.setColor(Color.GREEN.darker());
+        g.setColor(Color.green.darker());
         if(this.walls[0] && !this.top_off) g.drawLine(this.y,this.x,this.y+size+1,this.x);
         if(this.walls[1]) g.drawLine(this.y+size, this.x, this.y+size, this.x+size);
         if(this.walls[2]) g.drawLine(this.y+size+1, this.x+size, this.y, this.x+size);

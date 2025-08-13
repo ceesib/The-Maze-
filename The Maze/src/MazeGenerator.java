@@ -1,19 +1,19 @@
-
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Random;
 import java.util.Stack;
 import java.util.concurrent.TimeUnit;
+import javax.swing.JFrame;
 
-public class MazeGenerator implements Runnable{
+public class MazeGenerator<T extends JFrame> implements Runnable{
     public Stack<Cell> cells;
     public Stack<Cell> cellPath;
     public Map<String,Cell> population;
     public boolean[][] visited ;
-    public  GameFrame gameFrame;
+    public  T gameFrame;
     public int x,y;
 
-    public MazeGenerator(GameFrame gameFrame, boolean [][] visited,int x, int y){
+    public MazeGenerator(T gameFrame, boolean [][] visited,int x, int y){
         this.gameFrame = gameFrame;
         this.population = GameFrame.population;
         this.visited = visited;
@@ -42,7 +42,12 @@ public class MazeGenerator implements Runnable{
             else{
                 while(!cellPath.isEmpty()){
                     var c = cellPath.pop();
+                    // Marker<Color> marker = new Marker<>(Color.white);
+                    // c.add(marker,0);
+                    //c.revalidate();
+
                     computeNeighbours(c, vis, neighboursList);
+                    //TimeUnit.MILLISECONDS.sleep(50);
                     if(!neighboursList.isEmpty()) {
                         cells.push(c);
                         break;
@@ -96,7 +101,7 @@ public class MazeGenerator implements Runnable{
 
         current_cell.walls[struct.current_wall] = false;
         cell.walls[struct.opposite_wall] = false;
-        
+
         this.gameFrame.repaint();
         cell.revalidate();
         TimeUnit.MILLISECONDS.sleep(10);
