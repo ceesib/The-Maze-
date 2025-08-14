@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Random;
@@ -6,8 +7,7 @@ import java.util.concurrent.TimeUnit;
 import javax.swing.JFrame;
 
 public class MazeGenerator<T extends JFrame> implements Runnable{
-    public Stack<Cell> cells;
-    public Stack<Cell> cellPath;
+    public Stack<Cell> cells,cellPath;
     public Map<String,Cell> population;
     public boolean[][] visited ;
     public  T gameFrame;
@@ -35,25 +35,29 @@ public class MazeGenerator<T extends JFrame> implements Runnable{
 
         while(!cells.isEmpty()){
             current_cell = cells.pop();
+            current_cell.show = true;
+            current_cell.mark = true;
+            Opening.createOpening(current_cell);
             vis[current_cell.x][current_cell.y] = true;
             this.cellPath.push(current_cell);
             computeNeighbours(current_cell, vis, neighboursList);
             if(!neighboursList.isEmpty()) removeWalls(current_cell, neighboursList, vis);
             else{
                 while(!cellPath.isEmpty()){
-                    var c = cellPath.pop();
-                    // Marker<Color> marker = new Marker<>(Color.white);
-                    // c.add(marker,0);
-                    //c.revalidate();
-
+                    Cell c = cellPath.pop();
                     computeNeighbours(c, vis, neighboursList);
-                    //TimeUnit.MILLISECONDS.sleep(50);
+                    c.show = true;
+                    c.mark = false;
+                    this.gameFrame.repaint();
+                    
                     if(!neighboursList.isEmpty()) {
                         cells.push(c);
                         break;
                     }
+                    TimeUnit.MILLISECONDS.sleep(15);
                 }
             }
+            TimeUnit.MILLISECONDS.sleep(50);
         }
     }
 
@@ -101,7 +105,7 @@ public class MazeGenerator<T extends JFrame> implements Runnable{
 
         current_cell.walls[struct.current_wall] = false;
         cell.walls[struct.opposite_wall] = false;
-
+        cell.show = true;
         this.gameFrame.repaint();
         cell.revalidate();
         TimeUnit.MILLISECONDS.sleep(10);
