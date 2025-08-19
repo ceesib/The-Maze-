@@ -11,7 +11,7 @@ public class Cell extends JLayeredPane{
     public int i, j,x,y;
     public static final int size = 16;
     public boolean[] walls;
-    public boolean top_off ,left_off, show, mark;
+    public boolean top_off ,left_off, show, mark, travel,forward,seen;
  
     public Cell(int i, int j){
         this.x  =i;
@@ -20,8 +20,11 @@ public class Cell extends JLayeredPane{
         this.j = j*size;
         this.top_off = false;
         this.left_off = false;
+        this.seen = false; // to handle backtracking 
         this.show = false;
         this.mark = false;
+        this.travel = false;
+        this.forward = false;
         this.walls= new boolean[4];
         Arrays.fill(this.walls, true);
         this.setVisible(true);
@@ -48,6 +51,14 @@ public class Cell extends JLayeredPane{
         else if(this.show && !this.mark){
             g2D.setColor(Color.blue.darker());
             g2D.fillRect(this.y,this.x, size+3,size+3);
+        }
+
+        if(this.travel && this.forward){
+            g2D.setColor(Color.green.darker());
+            g2D.fillRect(this.y,this.x, size+3,size+3);
+        }
+        else if(!this.travel && !this.forward){
+            g2D.dispose();
         }
        
         

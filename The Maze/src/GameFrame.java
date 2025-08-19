@@ -14,6 +14,7 @@ public class GameFrame extends JFrame{
     public GameFrame(){
 
         this.setTitle("The Maze");
+       
         this.setSize(WIDTH, HEIGHT);
         this.getContentPane().setBackground(Color.BLACK);
 

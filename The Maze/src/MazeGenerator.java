@@ -1,4 +1,3 @@
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Random;
@@ -54,10 +53,9 @@ public class MazeGenerator<T extends JFrame> implements Runnable{
                         cells.push(c);
                         break;
                     }
-                    TimeUnit.MILLISECONDS.sleep(15);
+                    TimeUnit.MILLISECONDS.sleep(1);
                 }
             }
-            TimeUnit.MILLISECONDS.sleep(50);
         }
     }
 
@@ -108,7 +106,7 @@ public class MazeGenerator<T extends JFrame> implements Runnable{
         cell.show = true;
         this.gameFrame.repaint();
         cell.revalidate();
-        TimeUnit.MILLISECONDS.sleep(10);
+        TimeUnit.MILLISECONDS.sleep(1);
 
         neighboursList.clear();  
     }
