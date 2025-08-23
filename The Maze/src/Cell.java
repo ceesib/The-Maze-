@@ -8,10 +8,10 @@ import javax.swing.JLayeredPane;
 
 
 public class Cell extends JLayeredPane{
-    public int i, j,x,y;
+    public int i,j,x,y;
     public static final int size = 16;
     public boolean[] walls;
-    public boolean top_off ,left_off, show, mark, travel,forward,seen;
+    public boolean top_off ,left_off, show, mark, travel,forward;
  
     public Cell(int i, int j){
         this.x  =i;
@@ -20,7 +20,6 @@ public class Cell extends JLayeredPane{
         this.j = j*size;
         this.top_off = false;
         this.left_off = false;
-        this.seen = false; // to handle backtracking 
         this.show = false;
         this.mark = false;
         this.travel = false;
@@ -55,6 +54,10 @@ public class Cell extends JLayeredPane{
 
         if(this.travel && this.forward){
             g2D.setColor(Color.green.darker());
+            g2D.fillRect(this.y,this.x, size+3,size+3);
+        }
+        else if(this.travel && !this.forward){
+            g2D.setColor(Color.yellow.darker());
             g2D.fillRect(this.y,this.x, size+3,size+3);
         }
         else if(!this.travel && !this.forward){
