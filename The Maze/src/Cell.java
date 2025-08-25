@@ -57,7 +57,7 @@ public class Cell extends JLayeredPane{
             g2D.fillRect(this.y,this.x, size+3,size+3);
         }
         else if(this.travel && !this.forward){
-            g2D.setColor(Color.yellow.darker());
+            g2D.setColor(Color.white.darker());
             g2D.fillRect(this.y,this.x, size+3,size+3);
         }
         else if(!this.travel && !this.forward){
