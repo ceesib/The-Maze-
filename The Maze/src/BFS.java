@@ -4,10 +4,9 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
-import java.util.Stack;
 import java.util.concurrent.TimeUnit;
 
-public class BFS extends GridMethods<Queue<Cell>,Stack<Cell>>{
+public class BFS implements  GridMethods<Queue<Cell>,Map<Cell,Cell>>{
     public GameFrame gameFrame;
     public Point start,end;
     public BFS(GameFrame gameFrame){
@@ -36,7 +35,7 @@ public class BFS extends GridMethods<Queue<Cell>,Stack<Cell>>{
             
             this.gameFrame.repaint();
             computeNeighbours(cell, cells,visited,path);
-            TimeUnit.MILLISECONDS.sleep(1);
+            TimeUnit.MILLISECONDS.sleep(10);
         }  
         TimeUnit.MILLISECONDS.sleep(20);
         cleanup(cleanQueue);
@@ -61,7 +60,6 @@ public class BFS extends GridMethods<Queue<Cell>,Stack<Cell>>{
                         Cell c = GameFrame.population.get(newX +" "+ newY);
                         cells.offer(c);
                         path.put(c,cell);
-
                     }
                 }
             }

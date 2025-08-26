@@ -29,7 +29,6 @@ public class Cell extends JLayeredPane{
         this.setVisible(true);
         this.setBounds(this.j, this.i,size+this.y+1, size+this.x+1);
         this.setLayout(null);
-        
     }
 
     @Override
@@ -42,7 +41,13 @@ public class Cell extends JLayeredPane{
         if(this.walls[3] && !this.left_off) g.drawLine(this.y, this.x+size, this.y, this.x);
         Graphics2D g2D = (Graphics2D) g;
         g2D.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f));
-       
+ 
+        /* 
+           Handles the colouring during maze creation
+           Red for exploring
+           Blue for bactracking    
+        */ 
+    
         if(this.show&& this.mark) {
             g2D.setColor(Color.red.darker());
             g2D.fillRect(this.y,this.x, size+3,size+3);
@@ -51,7 +56,12 @@ public class Cell extends JLayeredPane{
             g2D.setColor(Color.blue.darker());
             g2D.fillRect(this.y,this.x, size+3,size+3);
         }
-
+         
+        /* 
+           Handles the colouring during traversal
+           Green for exploring
+           White for path  
+        */
         if(this.travel && this.forward){
             g2D.setColor(Color.green.darker());
             g2D.fillRect(this.y,this.x, size+3,size+3);
